@@ -1,4 +1,10 @@
 package getting.prices.api.product;
 
-public record ProductRecord(String barCode, String description) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ProductRecord(
+        @NotBlank
+        String barCode,
+        @NotBlank
+        String description) {
 }
