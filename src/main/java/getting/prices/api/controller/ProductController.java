@@ -47,6 +47,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Transactional
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        Product fromDb = repository.findById(id).orElseThrow();
+        repository.delete(fromDb);
     }
 }

@@ -47,6 +47,7 @@ public class SiteController {
     @DeleteMapping("/{id}")
     @Transactional
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        Site fromDb = repository.findById(id).orElseThrow();
+        repository.delete(fromDb);
     }
 }
