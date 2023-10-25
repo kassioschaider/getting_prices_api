@@ -13,7 +13,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -35,9 +34,9 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
             for (Element el : priceElements) {
                 priceListRecords.add(
                         new PriceListRecord(StringUtil.extractPriceValue(el
-                                .getElementsByAttributeValueStarting("class", "ProductOfferstyles__ProductOfferPrice")
+                                .getElementsByAttributeValueStarting(record.keyToAttributeElementToGetPrice(), record.attributeValuePrefixToGetPrice())
                                 .text(), record.extractPricePattern()
-                        ), el.getElementsByAttributeValueStarting("class", "ProductOfferstyles__ProductOfferPartnerName")
+                        ), el.getElementsByAttributeValueStarting(record.keyToAttributeElementToGetSellerTagName(), record.attributeValuePrefixToGetSellerTagName())
                         .text()));
             }
 
