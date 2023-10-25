@@ -10,11 +10,15 @@ public class StringUtil {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(price);
 
-        if (matcher.find()) {
-            return new BigDecimal(matcher.group(1).replace(",", "."));
+        try {
+            if (matcher.find()) {
+                return new BigDecimal(matcher.group(1).replace(",", "."));
+            }
+        } catch (Exception e) {
+            //TODO resolver o fato do método depender do usuário inserir um grupo no pattern (group(1))
+            throw new RuntimeException("Error on try extractPrice with: Price=" + price + ", and Regex=" + regex + System.lineSeparator() + e);
         }
 
-        //TODO resolver o fato do método depender do usuário inserir um grupo no pattern (group(1))
-        throw new RuntimeException("Error on try extractPrice with: Price=" + price + ", and Regex=" + regex );
+        return BigDecimal.ZERO;
     }
 }
