@@ -41,7 +41,7 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
                         .text()));
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
