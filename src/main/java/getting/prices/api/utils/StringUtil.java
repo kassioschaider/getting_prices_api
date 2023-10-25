@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 
-    public static BigDecimal extractPrice(String price, String regex) {
+    public static BigDecimal extractPriceValue(String price, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(price);
 
