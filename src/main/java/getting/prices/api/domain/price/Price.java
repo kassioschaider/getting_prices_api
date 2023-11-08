@@ -1,4 +1,4 @@
-package getting.prices.api.price;
+package getting.prices.api.domain.price;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

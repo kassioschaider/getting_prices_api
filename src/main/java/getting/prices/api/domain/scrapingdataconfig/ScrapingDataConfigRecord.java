@@ -1,4 +1,4 @@
-package getting.prices.api.scrapingdataconfig;
+package getting.prices.api.domain.scrapingdataconfig;
 
 import jakarta.validation.constraints.NotNull;
 

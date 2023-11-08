@@ -1,4 +1,4 @@
-package getting.prices.api.product;
+package getting.prices.api.domain.product;
 
 public record ProductListRecord(Long id, String barCode, String description) {
 

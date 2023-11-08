@@ -1,12 +1,7 @@
-package getting.prices.api.scrapingdataconfig;
+package getting.prices.api.domain.scrapingdataconfig;
 
-import getting.prices.api.site.Site;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Table(name = "scrapingDataConfigs")
 @Entity(name = "ScrapingDataConfig")

@@ -1,9 +1,9 @@
 package getting.prices.api.service.impl;
 
-import getting.prices.api.price.PriceListRecord;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfig;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRecord;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRepository;
+import getting.prices.api.domain.price.PriceListRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRepository;
 import getting.prices.api.service.ScrapingDataConfigService;
 import getting.prices.api.site.Site;
 import getting.prices.api.site.SiteRepository;

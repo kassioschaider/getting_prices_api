@@ -1,4 +1,4 @@
-package getting.prices.api.scrapingdataconfig;
+package getting.prices.api.domain.scrapingdataconfig;
 
 public enum ScrapingDataConfigType {
 

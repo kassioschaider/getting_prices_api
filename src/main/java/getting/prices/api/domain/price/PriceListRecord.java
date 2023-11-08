@@ -1,4 +1,4 @@
-package getting.prices.api.price;
+package getting.prices.api.domain.price;
 
 import java.math.BigDecimal;
 

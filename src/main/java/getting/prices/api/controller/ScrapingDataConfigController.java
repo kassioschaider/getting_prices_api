@@ -1,8 +1,8 @@
 package getting.prices.api.controller;
 
-import getting.prices.api.price.PriceListRecord;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfig;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRecord;
+import getting.prices.api.domain.price.PriceListRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
 import getting.prices.api.service.ScrapingDataConfigService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

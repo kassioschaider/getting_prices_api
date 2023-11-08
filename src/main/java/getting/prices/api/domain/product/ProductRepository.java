@@ -1,4 +1,4 @@
-package getting.prices.api.product;
+package getting.prices.api.domain.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

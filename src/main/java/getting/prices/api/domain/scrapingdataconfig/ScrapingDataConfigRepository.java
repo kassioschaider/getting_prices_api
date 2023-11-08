@@ -1,6 +1,5 @@
-package getting.prices.api.scrapingdataconfig;
+package getting.prices.api.domain.scrapingdataconfig;
 
-import getting.prices.api.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScrapingDataConfigRepository extends JpaRepository<ScrapingDataConfig, Long> {

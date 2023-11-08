@@ -1,8 +1,8 @@
 package getting.prices.api.service;
 
-import getting.prices.api.price.PriceListRecord;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfig;
-import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRecord;
+import getting.prices.api.domain.price.PriceListRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,9 @@
 package getting.prices.api.controller;
 
-import getting.prices.api.product.Product;
-import getting.prices.api.product.ProductListRecord;
-import getting.prices.api.product.ProductRecord;
-import getting.prices.api.product.ProductRepository;
+import getting.prices.api.domain.product.Product;
+import getting.prices.api.domain.product.ProductListRecord;
+import getting.prices.api.domain.product.ProductRecord;
+import getting.prices.api.domain.product.ProductRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +38,14 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductListRecord> getById(@PathVariable Long id) {
-        var fromDb = repository.findById(id).orElseThrow();
+        var fromDb = repository.getReferenceById(id);
         return ResponseEntity.ok(new ProductListRecord(fromDb));
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ProductListRecord> update(@PathVariable Long id, @RequestBody @Valid ProductRecord record) {
-        var fromDb = repository.findById(id).orElseThrow();
+        var fromDb = repository.getReferenceById(id);
         fromDb.setBarCode(record.barCode());
         fromDb.setDescription(record.description());
 
@@ -55,7 +55,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        var fromDb = repository.findById(id).orElseThrow();
+        var fromDb = repository.getReferenceById(id);
         repository.delete(fromDb);
 
         return ResponseEntity.noContent().build();
