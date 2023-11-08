@@ -22,8 +22,8 @@ public class TreatErrorsAdviceController {
     }
 
     private record DataValidateError(String field, String message) {
-        public DataValidateError(FieldError erro) {
-            this(erro.getField(), erro.getDefaultMessage());
+        public DataValidateError(FieldError error) {
+            this(error.getField(), error.getDefaultMessage());
         }
     }
 }
