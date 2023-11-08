@@ -1,7 +1,9 @@
 package getting.prices.api.service.impl;
 
 import getting.prices.api.price.PriceListRecord;
+import getting.prices.api.scrapingdataconfig.ScrapingDataConfig;
 import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRecord;
+import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRepository;
 import getting.prices.api.service.ScrapingDataConfigService;
 import getting.prices.api.site.Site;
 import getting.prices.api.site.SiteRepository;
@@ -22,13 +24,21 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
     @Autowired
     private SiteRepository siteRepository;
 
+    @Autowired
+    private ScrapingDataConfigRepository scrapingDataConfigRepository;
+
     @Override
     public ArrayList<PriceListRecord> testConfig(ScrapingDataConfigRecord record) {
         ArrayList<PriceListRecord> priceListRecords = new ArrayList<>();
         Site site = siteRepository.findById(record.siteId()).orElseThrow();
 
         try {
-            Document doc = Jsoup.connect(site.getUrl() + record.barCodeProductTest()).get();
+            Document doc = Jsoup.connect(site.getUrl() + record.barCodeProductTest())
+                    .userAgent("Mozilla")
+                    .timeout(5000)
+                    .referrer("http://google.com")
+                    .get();
+
             Elements priceElements =  doc.getElementsByClass(record.uniquePriceClass());
 
             for (Element el : priceElements) {
@@ -45,5 +55,10 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
         }
 
         return priceListRecords;
+    }
+
+    @Override
+    public ScrapingDataConfig save(ScrapingDataConfigRecord record) {
+        return scrapingDataConfigRepository.save(new ScrapingDataConfig(record));
     }
 }

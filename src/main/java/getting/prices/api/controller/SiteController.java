@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,7 +39,7 @@ public class SiteController {
     @PutMapping("/{id}")
     @Transactional
     public Site update(@PathVariable Long id, @RequestBody @Valid SiteRecord record) {
-        Site fromDb = repository.findById(id).orElseThrow();
+        var fromDb = repository.findById(id).orElseThrow();
         fromDb.setUrl(record.url());
         fromDb.setType(record.type());
         return repository.save(fromDb);
@@ -46,8 +47,9 @@ public class SiteController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void delete(@PathVariable Long id) {
-        Site fromDb = repository.findById(id).orElseThrow();
+    public ResponseEntity delete(@PathVariable Long id) {
+        var fromDb = repository.findById(id).orElseThrow();
         repository.delete(fromDb);
+        return ResponseEntity.noContent().build();
     }
 }

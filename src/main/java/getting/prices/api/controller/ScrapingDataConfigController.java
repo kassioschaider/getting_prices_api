@@ -1,6 +1,7 @@
 package getting.prices.api.controller;
 
 import getting.prices.api.price.PriceListRecord;
+import getting.prices.api.scrapingdataconfig.ScrapingDataConfig;
 import getting.prices.api.scrapingdataconfig.ScrapingDataConfigRecord;
 import getting.prices.api.service.ScrapingDataConfigService;
 import jakarta.validation.Valid;
@@ -22,5 +23,10 @@ public class ScrapingDataConfigController {
     @PostMapping("/test")
     public ArrayList<PriceListRecord> testConfig(@RequestBody @Valid ScrapingDataConfigRecord record) {
         return service.testConfig(record);
+    }
+
+    @PostMapping
+    public ScrapingDataConfig save(@RequestBody @Valid ScrapingDataConfigRecord record) {
+        return service.save(record);
     }
 }
