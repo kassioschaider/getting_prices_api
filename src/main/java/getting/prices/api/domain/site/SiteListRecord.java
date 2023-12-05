@@ -1,4 +1,4 @@
-package getting.prices.api.site;
+package getting.prices.api.domain.site;
 
 import java.net.URL;
 

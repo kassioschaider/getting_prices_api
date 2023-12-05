@@ -11,5 +11,6 @@ public record ScrapingDataConfigRecord(
         String keyToAttributeElementToGetPrice,
         String attributeValuePrefixToGetPrice,
         String keyToAttributeElementToGetSellerTagName,
-        String attributeValuePrefixToGetSellerTagName) {
+        String attributeValuePrefixToGetSellerTagName,
+        Boolean active) {
 }

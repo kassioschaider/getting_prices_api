@@ -5,10 +5,11 @@ import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
 import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ScrapingDataConfigService {
 
-    ArrayList<PriceListRecord> testConfig(ScrapingDataConfigRecord record);
+    List<PriceListRecord> testConfig(ScrapingDataConfigRecord record);
 
     ScrapingDataConfig save(ScrapingDataConfigRecord record);
 }

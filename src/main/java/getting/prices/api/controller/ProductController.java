@@ -3,7 +3,7 @@ package getting.prices.api.controller;
 import getting.prices.api.domain.product.Product;
 import getting.prices.api.domain.product.ProductListRecord;
 import getting.prices.api.domain.product.ProductRecord;
-import getting.prices.api.domain.product.ProductRepository;
+import getting.prices.api.service.ProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ProductController {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductService service;
 
     @PostMapping
     @Transactional
     public ResponseEntity<ProductListRecord> save(@RequestBody @Valid ProductRecord record, UriComponentsBuilder uriBuilder) {
-        var fromDb = repository.save(new Product(record));
+        var fromDb = service.save(new Product(record));
         var uri = uriBuilder.path("/products/{id}").buildAndExpand(fromDb.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ProductListRecord(fromDb));
@@ -32,32 +32,26 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductListRecord>> get(@PageableDefault(size = 10, sort = "description") Pageable pageable) {
-        var page = repository.findAll(pageable).map(ProductListRecord::new);
+        var page = service.findAll(pageable).map(ProductListRecord::new);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductListRecord> getById(@PathVariable Long id) {
-        var fromDb = repository.getReferenceById(id);
+        var fromDb = service.getById(id);
         return ResponseEntity.ok(new ProductListRecord(fromDb));
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ProductListRecord> update(@PathVariable Long id, @RequestBody @Valid ProductRecord record) {
-        var fromDb = repository.getReferenceById(id);
-        fromDb.setBarCode(record.barCode());
-        fromDb.setDescription(record.description());
-
-        return ResponseEntity.ok(new ProductListRecord(fromDb));
+        return ResponseEntity.ok(new ProductListRecord(service.update(id, new Product(record))));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Object> delete(@PathVariable Long id) {
-        var fromDb = repository.getReferenceById(id);
-        repository.delete(fromDb);
-
+    public ResponseEntity delete(@PathVariable Long id) {
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

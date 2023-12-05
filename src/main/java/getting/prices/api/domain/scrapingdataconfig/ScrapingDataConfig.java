@@ -1,38 +1,59 @@
 package getting.prices.api.domain.scrapingdataconfig;
 
+import getting.prices.api.domain.site.Site;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "scrapingDataConfigs")
+import java.time.LocalDateTime;
+
+@Table(name = "scraping_data_configs")
 @Entity(name = "ScrapingDataConfig")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class ScrapingDataConfig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long siteId;
+
+    @ManyToOne
+    @JoinColumn(name = "site_id", nullable = false)
+    private Site site;
+
+    @Column( name= "extract_price_pattern")
     private String extractPricePattern;
-    private String barCodeProductTest;
+    @Enumerated(EnumType.STRING)
     private ScrapingDataConfigType type;
+    @Column( name = "unique_price_class")
     private String uniquePriceClass;
+    @Column( name = "key_to_attribute_element_to_get_price")
     private String keyToAttributeElementToGetPrice;
+    @Column( name = "attribute_value_prefix_to_get_price")
     private String attributeValuePrefixToGetPrice;
+    @Column( name = "key_to_attribute_element_to_get_seller_tag_name")
     private String keyToAttributeElementToGetSellerTagName;
+    @Column( name = "attribute_value_prefix_to_get_seller_tag_name")
     private String attributeValuePrefixToGetSellerTagName;
+    @Column( name = "created_at", updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column( name = "active")
+    private Boolean active;
 
     public ScrapingDataConfig(final ScrapingDataConfigRecord record) {
-        this.siteId = record.siteId();
+        var site = new Site();
+        site.setId(record.siteId());
+        this.site = site;
+
         this.extractPricePattern = record.extractPricePattern();
-        this.barCodeProductTest = record.barCodeProductTest();
         this.type = record.type();
         this.uniquePriceClass = record.uniquePriceClass();
         this.keyToAttributeElementToGetPrice = record.keyToAttributeElementToGetPrice();
         this.attributeValuePrefixToGetPrice = record.attributeValuePrefixToGetPrice();
         this.keyToAttributeElementToGetSellerTagName = record.keyToAttributeElementToGetSellerTagName();
         this.attributeValuePrefixToGetSellerTagName = record.attributeValuePrefixToGetSellerTagName();
+        this.active = record.active();
     }
 }
