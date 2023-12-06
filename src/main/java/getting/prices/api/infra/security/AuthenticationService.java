@@ -1,4 +1,4 @@
-package getting.prices.api.domain.user;
+package getting.prices.api.infra.security;
 
 import getting.prices.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
