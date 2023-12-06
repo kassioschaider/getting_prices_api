@@ -5,6 +5,7 @@ import getting.prices.api.domain.product.ProductListRecord;
 import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
 import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
 import getting.prices.api.service.ScrapingDataConfigService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class ScrapingDataConfigController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ScrapingDataConfig> save(@RequestBody @Valid ScrapingDataConfigRecord record, UriComponentsBuilder uriBuilder) {
         var fromDb = service.save(record);
         var uri = uriBuilder.path("/scrapingDataConfig/{id}").buildAndExpand(fromDb.getId()).toUri();

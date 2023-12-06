@@ -9,8 +9,8 @@ create table scraping_data_configs(
     attribute_value_prefix_to_get_price varchar(50),
     key_to_attribute_element_to_get_seller_tag_name varchar(50),
     attribute_value_prefix_to_get_seller_tag_name varchar(50),
-    created_at timestamp,
+    created_at datetime not null,
     active boolean not null default 1,
     primary key(id),
-    foreign key (site_id) references sites(id)
+    constraint fk_scraping_data_configs_site_id foreign key(site_id) references sites(id)
 );
