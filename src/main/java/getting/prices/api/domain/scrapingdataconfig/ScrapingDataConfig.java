@@ -1,5 +1,6 @@
 package getting.prices.api.domain.scrapingdataconfig;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import getting.prices.api.domain.site.Site;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,6 +22,7 @@ public class ScrapingDataConfig {
 
     @ManyToOne
     @JoinColumn(name = "site_id", nullable = false)
+    @JsonManagedReference
     private Site site;
 
     @Column( name= "extract_price_pattern")
@@ -42,11 +44,8 @@ public class ScrapingDataConfig {
     @Column( name = "active")
     private Boolean active;
 
-    public ScrapingDataConfig(final ScrapingDataConfigRecord record) {
-        var site = new Site();
-        site.setId(record.siteId());
+    public ScrapingDataConfig(final ScrapingDataConfigTestRecord record, Site site) {
         this.site = site;
-
         this.extractPricePattern = record.extractPricePattern();
         this.type = record.type();
         this.uniquePriceClass = record.uniquePriceClass();
@@ -54,6 +53,6 @@ public class ScrapingDataConfig {
         this.attributeValuePrefixToGetPrice = record.attributeValuePrefixToGetPrice();
         this.keyToAttributeElementToGetSellerTagName = record.keyToAttributeElementToGetSellerTagName();
         this.attributeValuePrefixToGetSellerTagName = record.attributeValuePrefixToGetSellerTagName();
-        this.active = record.active();
+        this.active = true;
     }
 }

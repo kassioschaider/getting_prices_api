@@ -1,6 +1,8 @@
 package getting.prices.api.domain.site;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
+import getting.prices.api.domain.sellertag.SellerTag;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +26,12 @@ public class Site {
     private SiteType type;
 
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ScrapingDataConfig> scrapingDataConfigs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<SellerTag> sellerTags = new ArrayList<>();
 
     public Site(SiteRecord record) {
         this.url = record.url();

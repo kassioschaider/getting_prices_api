@@ -1,22 +1,18 @@
 package getting.prices.api.controller;
 
-import getting.prices.api.domain.price.PriceListRecord;
-import getting.prices.api.domain.product.ProductListRecord;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigListRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestRecord;
+import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestResultRecord;
 import getting.prices.api.service.ScrapingDataConfigService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("scrapingDataConfig")
@@ -26,16 +22,36 @@ public class ScrapingDataConfigController {
     private ScrapingDataConfigService service;
 
     @PostMapping("/test")
-    public ResponseEntity<List<PriceListRecord>> testConfig(@RequestBody @Valid ScrapingDataConfigRecord record) {
+    @Transactional
+    public ResponseEntity<ScrapingDataConfigTestResultRecord> testConfig(@RequestBody @Valid ScrapingDataConfigTestRecord record) {
         return ResponseEntity.ok(service.testConfig(record));
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ScrapingDataConfig> save(@RequestBody @Valid ScrapingDataConfigRecord record, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ScrapingDataConfigListRecord> save(@RequestBody @Valid ScrapingDataConfigTestRecord record, UriComponentsBuilder uriBuilder) {
         var fromDb = service.save(record);
         var uri = uriBuilder.path("/scrapingDataConfig/{id}").buildAndExpand(fromDb.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(fromDb);
+        return ResponseEntity.created(uri).body(new ScrapingDataConfigListRecord(fromDb));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ScrapingDataConfigListRecord> getById(@PathVariable Long id) {
+        var fromDb = service.getById(id);
+        return ResponseEntity.ok(new ScrapingDataConfigListRecord(fromDb));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ScrapingDataConfigListRecord>> get(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        var page = service.findAll(pageable).map(ScrapingDataConfigListRecord::new);
+        return ResponseEntity.ok(page);
     }
 }

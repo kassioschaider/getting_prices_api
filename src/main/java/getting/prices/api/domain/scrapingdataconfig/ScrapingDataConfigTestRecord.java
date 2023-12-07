@@ -2,7 +2,7 @@ package getting.prices.api.domain.scrapingdataconfig;
 
 import jakarta.validation.constraints.NotNull;
 
-public record ScrapingDataConfigRecord(
+public record ScrapingDataConfigTestRecord(
         @NotNull Long siteId,
         @NotNull String extractPricePattern,
         @NotNull String barCodeProductTest,
