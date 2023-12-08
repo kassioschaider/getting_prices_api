@@ -1,8 +1,6 @@
 package getting.prices.api.controller;
 
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigListRecord;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestRecord;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestResultRecord;
+import getting.prices.api.domain.scrapingdataconfig.*;
 import getting.prices.api.service.ScrapingDataConfigService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("scrapingDataConfig")
+@RequestMapping("scrapingDataConfigs")
 public class ScrapingDataConfigController {
 
     @Autowired
@@ -53,5 +51,14 @@ public class ScrapingDataConfigController {
     public ResponseEntity<Page<ScrapingDataConfigListRecord>> get(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
         var page = service.findAll(pageable).map(ScrapingDataConfigListRecord::new);
         return ResponseEntity.ok(page);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<ScrapingDataConfigListRecord> update(@PathVariable Long id, @RequestBody @Valid ScrapingDataConfigTestRecord record, UriComponentsBuilder uriBuilder) {
+        var fromDb = service.update(id, record);
+        var uri = uriBuilder.path("/scrapingDataConfig/{id}").buildAndExpand(fromDb.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new ScrapingDataConfigListRecord(fromDb));
     }
 }

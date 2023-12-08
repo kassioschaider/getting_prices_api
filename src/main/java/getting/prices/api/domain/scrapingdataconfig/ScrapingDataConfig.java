@@ -55,4 +55,5 @@ public class ScrapingDataConfig {
         this.attributeValuePrefixToGetSellerTagName = record.attributeValuePrefixToGetSellerTagName();
         this.active = true;
     }
+
 }

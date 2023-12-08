@@ -16,7 +16,7 @@ public interface ScrapingDataConfigService {
 
     ScrapingDataConfig getById(Long id);
 
-    ScrapingDataConfig update(Long id, ScrapingDataConfig data);
+    ScrapingDataConfig update(Long id, ScrapingDataConfigTestRecord record);
 
     void delete(Long id);
 }

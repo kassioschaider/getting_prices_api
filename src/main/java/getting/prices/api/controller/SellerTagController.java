@@ -3,7 +3,12 @@ package getting.prices.api.controller;
 import getting.prices.api.domain.product.Product;
 import getting.prices.api.domain.product.ProductListRecord;
 import getting.prices.api.domain.product.ProductRecord;
+import getting.prices.api.domain.sellertag.SellerTag;
+import getting.prices.api.domain.sellertag.SellerTagListRecord;
+import getting.prices.api.domain.sellertag.SellerTagRecord;
+import getting.prices.api.domain.sellertag.SellerTagUpdateRecord;
 import getting.prices.api.service.ProductService;
+import getting.prices.api.service.SellerTagService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,37 +20,28 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("products")
-public class ProductController {
+@RequestMapping("sellerTags")
+public class SellerTagController {
 
     @Autowired
-    private ProductService service;
-
-    @PostMapping
-    @Transactional
-    public ResponseEntity<ProductListRecord> save(@RequestBody @Valid ProductRecord record, UriComponentsBuilder uriBuilder) {
-        var fromDb = service.save(new Product(record));
-        var uri = uriBuilder.path("/products/{id}").buildAndExpand(fromDb.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(new ProductListRecord(fromDb));
-    }
+    private SellerTagService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductListRecord>> get(@PageableDefault(size = 10, sort = "description") Pageable pageable) {
-        var page = service.findAll(pageable).map(ProductListRecord::new);
+    public ResponseEntity<Page<SellerTagRecord>> get(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        var page = service.findAll(pageable).map(SellerTagRecord::new);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductListRecord> getById(@PathVariable Long id) {
+    public ResponseEntity<SellerTagRecord> getById(@PathVariable Long id) {
         var fromDb = service.getById(id);
-        return ResponseEntity.ok(new ProductListRecord(fromDb));
+        return ResponseEntity.ok(new SellerTagRecord(fromDb));
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<ProductListRecord> update(@PathVariable Long id, @RequestBody @Valid ProductRecord record) {
-        return ResponseEntity.ok(new ProductListRecord(service.update(id, record)));
+    public ResponseEntity<SellerTagRecord> update(@PathVariable Long id, @RequestBody @Valid SellerTagUpdateRecord record) {
+        return ResponseEntity.ok(new SellerTagRecord(service.update(id, record)));
     }
 
     @DeleteMapping("/{id}")

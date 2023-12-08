@@ -45,7 +45,7 @@ public class SiteController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<SiteListRecord> update(@PathVariable Long id, @RequestBody @Valid SiteRecord record) {
-        return ResponseEntity.ok(new SiteListRecord(service.update(id, new Site(record))));
+        return ResponseEntity.ok(new SiteListRecord(service.update(id, record)));
     }
 
     @DeleteMapping("/{id}")

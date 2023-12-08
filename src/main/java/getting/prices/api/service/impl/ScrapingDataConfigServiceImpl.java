@@ -2,13 +2,10 @@ package getting.prices.api.service.impl;
 
 import getting.prices.api.domain.price.Price;
 import getting.prices.api.domain.price.PriceListRecord;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfig;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestRecord;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigTestResultRecord;
+import getting.prices.api.domain.scrapingdataconfig.*;
 import getting.prices.api.domain.sellertag.SellerTag;
 import getting.prices.api.domain.sellertag.SellerTagListRecord;
 import getting.prices.api.repository.ScrapingDataConfigRepository;
-import getting.prices.api.domain.scrapingdataconfig.ScrapingDataConfigType;
 import getting.prices.api.repository.SellerTagRepository;
 import getting.prices.api.service.ScrapingDataConfigService;
 import getting.prices.api.domain.site.Site;
@@ -101,8 +98,7 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
     @Override
     public ScrapingDataConfig save(ScrapingDataConfigTestRecord record) {
         Site site = siteRepository.findById(record.siteId()).orElseThrow();
-        ScrapingDataConfig sdc = new ScrapingDataConfig(record, site);
-        return scrapingDataConfigRepository.save(sdc);
+        return scrapingDataConfigRepository.save(new ScrapingDataConfig(record, site));
     }
 
     @Override
@@ -116,8 +112,17 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
     }
 
     @Override
-    public ScrapingDataConfig update(Long id, ScrapingDataConfig data) {
-        return null;
+    public ScrapingDataConfig update(Long id, ScrapingDataConfigTestRecord record) {
+        var site = siteRepository.findById(record.siteId()).orElseThrow();
+        var fromDb = scrapingDataConfigRepository.findById(record.siteId()).orElseThrow();
+        fromDb.setSite(site);
+        fromDb.setType(record.type());
+        fromDb.setAttributeValuePrefixToGetPrice(record.attributeValuePrefixToGetPrice());
+        fromDb.setKeyToAttributeElementToGetPrice(record.keyToAttributeElementToGetPrice());
+        fromDb.setAttributeValuePrefixToGetSellerTagName(record.attributeValuePrefixToGetSellerTagName());
+        fromDb.setKeyToAttributeElementToGetSellerTagName(record.keyToAttributeElementToGetSellerTagName());
+
+        return scrapingDataConfigRepository.save(fromDb);
     }
 
     @Override

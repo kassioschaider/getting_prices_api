@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Table(name = "seller_tags")
 @Entity(name = "SellerTag")

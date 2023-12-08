@@ -1,6 +1,7 @@
 package getting.prices.api.service.impl;
 
 import getting.prices.api.domain.product.Product;
+import getting.prices.api.domain.product.ProductRecord;
 import getting.prices.api.repository.ProductRepository;
 import getting.prices.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Long id, Product data) {
-        var fromDb = repository.getReferenceById(id);
-        fromDb.setBarCode(data.getBarCode());
-        fromDb.setDescription(data.getDescription());
+    public Product update(Long id, ProductRecord data) {
+        var fromDb = repository.findById(id).orElseThrow();
+        fromDb.setBarCode(data.barCode());
+        fromDb.setDescription(data.description());
 
         return repository.save(fromDb);
     }
