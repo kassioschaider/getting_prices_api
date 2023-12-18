@@ -135,10 +135,9 @@ public class ScrapingDataConfigServiceImpl implements ScrapingDataConfigService 
         List<SellerTag> addedSellerTags = new ArrayList<>();
 
         for (Price p : prices) {
-            try {
+            var fromDb = sellerTagRepository.findByTagAndSiteId(p.getSellerTag(), site.getId());
+            if(fromDb.isEmpty()) {
                 addedSellerTags.add(sellerTagRepository.save(new SellerTag(p.getSellerTag(), site)));
-            } catch (DataIntegrityViolationException e) {
-                System.out.println("Duplicated SellerTag: " + p.getSellerTag());
             }
         }
 

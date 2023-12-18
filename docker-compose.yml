@@ -5,14 +5,10 @@ services:
   db:
     image: mysql
     restart: always
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "getting_prices_api"
       MYSQL_USER: "kassio"
       MYSQL_PASSWORD: "kassio"
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
